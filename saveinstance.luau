@@ -76,6 +76,7 @@ local sha384
 local service = setmetatable({}, {
 	__index = function(self, serviceName)
 		if cloneref then
+			print(serviceName)
 			Service = cloneref(game:GetService(serviceName))
 		end
 
