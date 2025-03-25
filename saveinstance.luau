@@ -61,7 +61,7 @@ local identify_executor = identifyexecutor or getexecutorname or whatexecutor
 
 local EXECUTOR_NAME = identify_executor and identify_executor() or ""
 
--- local cloneref = global_container.cloneref
+local cloneref = cloneref
 local gethiddenproperty = global_container.gethiddenproperty
 
 -- These should be universal enough
@@ -75,17 +75,14 @@ local sha384
 
 local service = setmetatable({}, {
 	__index = function(self, serviceName)
-		local o, s = pcall(Instance.new, serviceName)
-		local Service = o and s
-			or game:GetService(serviceName)
-			or settings():GetService(serviceName)
-			or UserSettings():GetService(serviceName)
+		if cloneref then
+			Service = cloneref(Service)
+		end
 
-		-- if cloneref then
-		-- 	Service = cloneref(Service)
-		-- end
 		if Service then
 		self[serviceName] = Service
+		else
+		warn("cloneref aint working/not supported")
 		end
 		return Service
 	end,
